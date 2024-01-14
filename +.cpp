@@ -5,11 +5,14 @@ int shu(string s){
     int i = s.size() - 1;
     int shi = 1;
     int sum = 0;
-    while(i >= 0){
+    int j = 0;
+    if(s[0] == '-') j++;
+    while(i >= j){
         sum += shi * (s[i] - '0');
         shi *= 10;
         i--;
     }
+    if(j == 1) sum *= -1;
     return sum;
 }
 
