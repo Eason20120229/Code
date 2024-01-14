@@ -1,0 +1,4 @@
+echo "xxx" >> xxx.xxx
+git add xxx.xxx
+git commit -m "xxx.xxx commit"
+git push -u origin main
