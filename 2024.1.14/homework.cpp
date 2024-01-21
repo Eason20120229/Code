@@ -4,7 +4,7 @@ using namespace std;
 struct{
     int w;
     string n;
-}data[10001];
+}data[100001];
 
 int main(){
     int n,m;
