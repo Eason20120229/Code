@@ -19,5 +19,6 @@ int main(){
     }
     ans += 1;
     cout << ans;
+    list<string> l(5);
     return 0;
 }
