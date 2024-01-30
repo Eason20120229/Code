@@ -13,12 +13,13 @@ class MyList{
 
 public:
     Node *head;
-    Node *tail;
     MyList(){
-        tail = head = new Node;
+        head = new Node;
+        head -> data = 0;
         head -> next = nullptr;
     }
     MyList(int a[], int n){
+        Node *tail;
         tail = head = new Node;
         head -> next = nullptr;
         for (int i = 0; i < n; i++){
@@ -28,9 +29,10 @@ public:
             tail = temp;
             tail -> next = nullptr;
         }
+        head -> data = n;
     }
 
-    void ouput(){
+    void outPut(){
         Node *temp;
         if (head -> next)
             temp = head -> next;
@@ -47,7 +49,6 @@ public:
         cout << endl;
     }
 
-    void deleteId(int n);
     void deleteNum(int c){
         Node *pre = nullptr,*temp = nullptr,*de = nullptr;
         int cnt = 0;
@@ -68,7 +69,6 @@ public:
                     pre -> next = nullptr;
                     de = temp;
                     temp = nullptr;
-                    tail = pre;
                 }
                 delete de;
                 de = nullptr;
@@ -81,6 +81,30 @@ public:
         temp = nullptr;
         head -> data -= cnt;
     }
+
+    void tailInsert(int n){
+        Node *temp = head;
+        while(temp){
+            if(temp -> next == nullptr){
+                temp -> next = new Node;
+                temp = temp -> next;
+                temp -> data = n;
+                temp -> next = nullptr;
+                head -> data++;
+            }
+            temp = temp -> next;
+        }
+    }
+
+    void headInsert(int n){
+        Node *pre = head;
+        Node *temp = head -> next;
+        pre -> next = new Node;
+        pre = pre -> next;
+        pre -> next = temp;
+        pre -> data = n;
+        head -> data++;
+    }
 };
 
 int main()
@@ -92,10 +116,17 @@ int main()
         cin >> a[i];
     }
     MyList l(a, n);
-    l.ouput();
+    l.outPut();
     int t;
     cin >> t;
     l.deleteNum(t);
-    l.ouput();
+    l.outPut();
+    int he,ta;
+    cin >> he;
+    l.headInsert(he);
+    l.outPut();
+    cin >> ta;
+    l.tailInsert(ta);
+    l.outPut();
     return 0;
 }
