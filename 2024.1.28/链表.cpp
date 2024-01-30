@@ -106,6 +106,14 @@ public:
 
     void insertODUp(int n){
         Node *temp = head,*pre;
+        if(!head -> next){
+            Node *t = new Node;
+            t -> data = n;
+            t -> next = nullptr;
+            head -> next = t;
+            head -> data++;
+            return;
+        }
         temp = head -> next;
         pre = head;
         while(temp){
@@ -129,10 +137,34 @@ public:
         }
     }
 
+    void reverseList(){
+        Node *nextNode;
+        Node *cur = head -> next;
+        head -> next = nullptr;
+        while(cur){
+            nextNode = cur -> next;
+            cur -> next = head -> next;
+            head -> next = cur;
+            cur = nextNode;
+        }
+    }
+
+    void sort(){
+        int i,j;
+        for(i = head -> data;i > 0;i--){
+            Node *temp = head -> next;
+            for(j = 1;j < i;j++){
+                if((temp -> data) > (temp -> next -> data)){
+                    swap(temp -> data,temp -> next -> data);
+                }
+                temp = temp -> next;
+            }
+        }
+    }
+
 };
 
-int main()
-{
+int main(){
     int n;
     cin >> n;
     int a[1001] = {};
@@ -152,9 +184,11 @@ int main()
     // cin >> ta;
     // l.tailInsert(ta);
     // l.outPut();
-    int u;
-    cin >> u;
-    l.insertODUp(u);
+    // int u;
+    // cin >> u;
+    // l.insertODUp(u);
+    //l.reverseList();
+    l.sort();
     l.outPut();
     return 0;
 }
