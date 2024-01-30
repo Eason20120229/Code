@@ -97,14 +97,38 @@ public:
     }
 
     void headInsert(int n){
-        Node *pre = head;
-        Node *temp = head -> next;
-        pre -> next = new Node;
-        pre = pre -> next;
-        pre -> next = temp;
-        pre -> data = n;
+        Node *temp = new Node;
+        temp -> data = n;
+        temp -> next = head -> next;
+        head -> next = temp;
         head -> data++;
     }
+
+    void insertODUp(int n){
+        Node *temp = head,*pre;
+        temp = head -> next;
+        pre = head;
+        while(temp){
+            if(temp -> data > n){
+                if(temp == head -> next) headInsert(n);
+                else{
+                    Node *t = new Node;
+                    t -> data = n;
+                    t -> next = pre -> next;
+                    pre -> next = t;
+                    head -> data++;
+                }
+                return;
+            }
+            if(temp -> next == nullptr){
+                tailInsert(n);
+                return;
+            }
+            pre = temp;
+            temp = temp -> next;
+        }
+    }
+
 };
 
 int main()
@@ -117,16 +141,20 @@ int main()
     }
     MyList l(a, n);
     l.outPut();
-    int t;
-    cin >> t;
-    l.deleteNum(t);
-    l.outPut();
-    int he,ta;
-    cin >> he;
-    l.headInsert(he);
-    l.outPut();
-    cin >> ta;
-    l.tailInsert(ta);
+    // int t;
+    // cin >> t;
+    // l.deleteNum(t);
+    // l.outPut();
+    // int he,ta;
+    // cin >> he;
+    // l.headInsert(he);
+    // l.outPut();
+    // cin >> ta;
+    // l.tailInsert(ta);
+    // l.outPut();
+    int u;
+    cin >> u;
+    l.insertODUp(u);
     l.outPut();
     return 0;
 }
