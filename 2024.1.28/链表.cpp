@@ -12,14 +12,13 @@ struct Node{
 class MyList{
 
 public:
-    Node *head;
+    Node *head,*tail;
     MyList(){
-        head = new Node;
+        tail = head = new Node;
         head -> data = 0;
         head -> next = nullptr;
     }
     MyList(int a[], int n){
-        Node *tail;
         tail = head = new Node;
         head -> next = nullptr;
         for (int i = 0; i < n; i++){
@@ -69,6 +68,7 @@ public:
                     pre -> next = nullptr;
                     de = temp;
                     temp = nullptr;
+                    tail = pre;
                 }
                 delete de;
                 de = nullptr;
@@ -83,20 +83,33 @@ public:
     }
 
     void tailInsert(int n){
-        Node *temp = head;
-        while(temp){
-            if(temp -> next == nullptr){
-                temp -> next = new Node;
-                temp = temp -> next;
-                temp -> data = n;
-                temp -> next = nullptr;
-                head -> data++;
-            }
-            temp = temp -> next;
-        }
+        // Node *temp = head;
+        // while(temp){
+        //     if(temp -> next == nullptr){
+        //         temp -> next = new Node;
+        //         temp = temp -> next;
+        //         temp -> data = n;
+        //         temp -> next = nullptr;
+        //         head -> data++;
+        //     }
+        //     temp = temp -> next;
+        // }
+        tail-> next = new Node;
+        tail = tail -> next;
+        tail -> next = nullptr;
+        tail -> data = n;
     }
 
     void headInsert(int n){
+        if(!head -> next){
+            Node *t = new Node;
+            t -> data = n;
+            t -> next = nullptr;
+            head -> next = t;
+            head -> data++;
+            tail = t;
+            return;
+        }
         Node *temp = new Node;
         temp -> data = n;
         temp -> next = head -> next;
@@ -112,6 +125,7 @@ public:
             t -> next = nullptr;
             head -> next = t;
             head -> data++;
+            tail = t;
             return;
         }
         temp = head -> next;
@@ -141,6 +155,7 @@ public:
         Node *nextNode;
         Node *cur = head -> next;
         head -> next = nullptr;
+        tail = cur;
         while(cur){
             nextNode = cur -> next;
             cur -> next = head -> next;
@@ -160,6 +175,9 @@ public:
                 temp = temp -> next;
             }
         }
+        Node *temp = head;
+        while(temp -> next) temp = temp -> next;
+        tail = temp;
     }
 
 };
@@ -187,8 +205,8 @@ int main(){
     // int u;
     // cin >> u;
     // l.insertODUp(u);
-    //l.reverseList();
-    l.sort();
+    l.reverseList();
+    // l.sort();
     l.outPut();
     return 0;
 }

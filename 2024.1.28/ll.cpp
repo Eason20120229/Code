@@ -4,7 +4,9 @@ using namespace std;
 struct Node{
     int data;
     Node *next;   
-}*head,*tail,*pre,*temp,*de;
+};
+
+Node *head,*tail,*pre,*temp,*de,*nextNode;
 
 void create(){
     int n,cnt;
@@ -24,7 +26,7 @@ void create(){
     temp = nullptr;
 }
 
-void output(){
+void outPut(){
     if(head -> next){
         temp = head -> next;
     }else{
@@ -74,12 +76,93 @@ void deleteNum(int c){
     head -> data -= cnt;
 }
 
+void headInsert(int n){
+    temp = new Node;
+    if(!head -> next){
+        head -> next = temp;
+        temp -> data = n;
+        temp -> next = nullptr;
+        tail = temp;
+        head -> data++;
+        return;
+    }
+    temp -> next = head -> next;
+    head -> next = temp;
+    temp -> data = n;
+    head -> data++;
+}
+
+void tailInsert(int n){
+    temp = new Node;
+    tail -> next = temp;
+    temp -> next = nullptr;
+    temp -> data = n;
+    head -> data++;
+}
+
+void insertODUp(int n){
+    if(!head -> next){
+        temp = new Node;
+        head -> next = temp;
+        temp -> data = n;
+        temp -> next = nullptr;
+        tail = temp;
+        head -> data++;
+        return;
+    }
+    pre = head;
+    temp = pre -> next;
+    while(temp){
+        if(temp -> data > n){
+            pre -> next = new Node;
+            pre = pre -> next;
+            pre -> data = n;
+            pre -> next = temp;
+            head -> data++;
+            return;
+        }
+        if(!temp -> next) tailInsert(n);
+        pre = temp;
+        temp = temp -> next;
+    }
+}
+
+void reverseList(){
+    Node *cur = head -> next;
+    tail = cur;
+    head -> next = nullptr;
+    while(cur){
+        nextNode = cur -> next;
+        cur -> next = head -> next;
+        head -> next = cur;
+        cur = nextNode;
+    }
+}
+
+void sort(){
+    for(int i = 0;i < head -> data;i++){
+        temp = head -> next;
+        for(int j = 0;j < head -> data - i - 1;j++){
+            if(temp -> data > temp -> next -> data){
+                swap(temp -> data,temp -> next -> data);
+            }
+            temp = temp -> next;
+        }
+    }
+    temp = head;
+    while(temp -> next) temp = temp -> next;
+    tail = temp;
+}
+
 int main(){
     create();
-    output();
-    int t;
-    cin >> t;
-    deleteNum(t);
-    output();
+    //reverseList();
+    sort();
+    outPut();
+    cout << tail -> data;
+    // int t;
+    // cin >> t;
+    // deleteNum(t);
+    // outPut();
     return 0;
 }
