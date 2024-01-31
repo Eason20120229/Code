@@ -6,9 +6,10 @@ struct Node{
     Node *next;   
 };
 
-Node *head,*tail,*pre,*temp,*de,*nextNode;
+Node *pre,*temp,*de,*nextNode;
 
-void create(){
+Node *create(){
+    Node *tail,*head;
     int n,cnt;
     cin >> n;
     head = tail = new Node;
@@ -24,9 +25,10 @@ void create(){
     }
     head -> data = cnt;
     temp = nullptr;
+    return head;
 }
 
-void outPut(){
+void outPut(Node *head){
     if(head -> next){
         temp = head -> next;
     }else{
@@ -43,7 +45,7 @@ void outPut(){
     temp = nullptr;
 }
 
-void deleteNum(int c){
+void deleteNum(Node *head,int c){
     int cnt = 0;
     if(head -> next){
         pre = head;
@@ -62,7 +64,6 @@ void deleteNum(int c){
                 pre -> next = nullptr;
                 de = temp;
                 temp = nullptr;
-                tail = pre;
             }
             delete de;
             de = nullptr;
@@ -76,13 +77,12 @@ void deleteNum(int c){
     head -> data -= cnt;
 }
 
-void headInsert(int n){
+void headInsert(Node *head,int n){
     temp = new Node;
     if(!head -> next){
         head -> next = temp;
         temp -> data = n;
         temp -> next = nullptr;
-        tail = temp;
         head -> data++;
         return;
     }
@@ -92,21 +92,26 @@ void headInsert(int n){
     head -> data++;
 }
 
-void tailInsert(int n){
-    temp = new Node;
-    tail -> next = temp;
-    temp -> next = nullptr;
-    temp -> data = n;
-    head -> data++;
+void tailInsert(Node *head,int n){
+    Node *temp = head;
+    while(temp){
+        if(temp -> next == nullptr){
+            temp -> next = new Node;
+            temp = temp -> next;
+            temp -> data = n;
+            temp -> next = nullptr;
+            head -> data++;
+        }
+        temp = temp -> next;
+    }
 }
 
-void insertODUp(int n){
+void insertODUp(Node *head,int n){
     if(!head -> next){
         temp = new Node;
         head -> next = temp;
         temp -> data = n;
         temp -> next = nullptr;
-        tail = temp;
         head -> data++;
         return;
     }
@@ -121,15 +126,14 @@ void insertODUp(int n){
             head -> data++;
             return;
         }
-        if(!temp -> next) tailInsert(n);
+        if(!temp -> next) tailInsert(head,n);
         pre = temp;
         temp = temp -> next;
     }
 }
 
-void reverseList(){
+void reverseList(Node *head){
     Node *cur = head -> next;
-    tail = cur;
     head -> next = nullptr;
     while(cur){
         nextNode = cur -> next;
@@ -139,7 +143,7 @@ void reverseList(){
     }
 }
 
-void sort(){
+void sort(Node *head){
     for(int i = 0;i < head -> data;i++){
         temp = head -> next;
         for(int j = 0;j < head -> data - i - 1;j++){
@@ -151,18 +155,43 @@ void sort(){
     }
     temp = head;
     while(temp -> next) temp = temp -> next;
-    tail = temp;
+}
+
+Node *merge(Node *l1,Node *l2){
+    Node *head = new Node;
+    Node *p = head;
+    for(;l1 && l2;p = p -> next){
+        if(l1 -> data < l2 -> data){
+            p -> next = l1;
+            l1 = l1 -> next;
+        }else{
+            p -> next = l2;
+            l2 = l2 -> next;
+        }
+    }
+    p -> next = l1 != nullptr ? l1 : l2;
+    Node *re = head -> next;
+    //delete head;
+    return re;
+}
+
+Node *mergeSort(Node *head){
+    if(!head || !head -> next) return head;
+    Node *fast = head,*slow = head;
+    while(fast -> next && fast -> next -> next){
+        fast = fast -> next -> next;
+        slow = slow -> next;
+    }
+    fast = slow;
+    slow = slow -> next;
+    fast -> next = nullptr;
+    Node *l1 = mergeSort(head),*l2 = mergeSort(slow);
+    return merge(l1,l2);
 }
 
 int main(){
-    create();
-    //reverseList();
-    sort();
-    outPut();
-    cout << tail -> data;
-    // int t;
-    // cin >> t;
-    // deleteNum(t);
-    // outPut();
+    Node *head = create();
+    head -> next = mergeSort(head -> next);
+    outPut(head);
     return 0;
 }

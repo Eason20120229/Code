@@ -182,31 +182,59 @@ public:
 
 };
 
-int main(){
-    int n;
-    cin >> n;
-    int a[1001] = {};
-    for (int i = 0; i < n; i++){
-        cin >> a[i];
+Node *merge(Node *l1,Node *l2){
+    Node *head = new Node;
+    Node *temp,*pre = head,*de;
+    head -> next = nullptr;
+    l1 = l1 -> next;
+    l2 = l2 -> next;
+    while(l1 && l2){
+        if(l1 -> data < l2 -> data){
+            temp = new Node;
+            pre -> next = temp;
+            temp -> data = l1 -> data;
+            temp -> next = nullptr;
+            pre = temp;
+            de = l1;
+            l1 = l1 -> next;
+            delete de;
+        }else{
+            temp = new Node;
+            pre -> next = temp;
+            temp -> data = l2 -> data;
+            temp -> next = nullptr;
+            pre = temp;
+            de = l2;
+            l2 = l2 -> next;
+            delete de;
+        }
     }
-    MyList l(a, n);
-    l.outPut();
-    // int t;
-    // cin >> t;
-    // l.deleteNum(t);
-    // l.outPut();
-    // int he,ta;
-    // cin >> he;
-    // l.headInsert(he);
-    // l.outPut();
-    // cin >> ta;
-    // l.tailInsert(ta);
-    // l.outPut();
-    // int u;
-    // cin >> u;
-    // l.insertODUp(u);
-    l.reverseList();
-    // l.sort();
-    l.outPut();
+    while(l1){
+        temp = new Node;
+        pre -> next = temp;
+        temp -> data = l1 -> data;
+        temp -> next = nullptr;
+        pre = temp;
+        de = l1;
+        l1 = l1 -> next;
+        delete de;
+    }
+    while(l2){
+        temp = new Node;
+        pre -> next = temp;
+        temp -> data = l2 -> data;
+        temp -> next = nullptr;
+        pre = temp;
+        de = l2;
+        l2 = l2 -> next;
+        delete de;
+    }
+    Node *re = head -> next;
+    delete head;
+    return re;
+}
+
+int main(){
+    
     return 0;
 }
