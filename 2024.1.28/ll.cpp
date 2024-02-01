@@ -160,6 +160,7 @@ void sort(Node *head){
 Node *merge(Node *l1,Node *l2){
     Node *head = new Node;
     Node *p = head;
+    head -> next = nullptr;
     for(;l1 && l2;p = p -> next){
         if(l1 -> data < l2 -> data){
             p -> next = l1;
@@ -169,34 +170,15 @@ Node *merge(Node *l1,Node *l2){
             l2 = l2 -> next;
         }
     }
-    p -> next = l1 != nullptr ? l1 : l2;
+    p -> next = l1 != nullptr ? l1 : l2; 
     Node *re = head -> next;
     delete head;
     return re;
 }
 
-Node *mSort(Node *head){
-    if(!head || !head -> next) return head;
-    Node *fast = head,*slow = head;
-    while(fast -> next && fast -> next -> next){
-        fast = fast -> next -> next;
-        slow = slow -> next;
-    }
-    fast = slow;
-    slow = slow -> next;
-    fast -> next = nullptr;
-    Node *l1 = mSort(head),*l2 = mSort(slow);
-    return merge(l1,l2);
-}
-
-void mergeSort(Node *head){
-    if(!head) return;
-    head -> next = mSort(head -> next);
-}
-
 int main(){
     Node *head = create();
-    mergeSort(head);
+    //mergeSort(head);
     outPut(head);
     return 0;
 }
