@@ -34,7 +34,8 @@ int main(){
         }
     }
     cin >> sx >> sy >> ex >> ey;
-    if(a[sx][sy] == '*' && a[ex][ey] == '*') dfs(sx,sy);
+    if(ex == sx && ey == sy) f = 1;
+    else if(a[sx][sy] == '*' && a[ex][ey] == '*') dfs(sx,sy);
     if(f) cout << "Yes";
     else cout << "No";
     return 0;
