@@ -171,11 +171,11 @@ Node *merge(Node *l1,Node *l2){
     }
     p -> next = l1 != nullptr ? l1 : l2;
     Node *re = head -> next;
-    //delete head;
+    delete head;
     return re;
 }
 
-Node *mergeSort(Node *head){
+Node *mSort(Node *head){
     if(!head || !head -> next) return head;
     Node *fast = head,*slow = head;
     while(fast -> next && fast -> next -> next){
@@ -185,13 +185,18 @@ Node *mergeSort(Node *head){
     fast = slow;
     slow = slow -> next;
     fast -> next = nullptr;
-    Node *l1 = mergeSort(head),*l2 = mergeSort(slow);
+    Node *l1 = mSort(head),*l2 = mSort(slow);
     return merge(l1,l2);
+}
+
+void mergeSort(Node *head){
+    if(!head) return;
+    head -> next = mSort(head -> next);
 }
 
 int main(){
     Node *head = create();
-    head -> next = mergeSort(head -> next);
+    mergeSort(head);
     outPut(head);
     return 0;
 }
