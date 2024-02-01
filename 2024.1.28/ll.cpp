@@ -50,27 +50,20 @@ void deleteNum(Node *head,int c){
     if(head -> next){
         pre = head;
         temp = head -> next;
-    }else{
-        cout << "The list is empty." << endl;
-    }
-    while(temp){
-        if(temp -> data == c){
-            cnt++;
-            if(temp -> next){
+        while(temp){
+            if(temp -> data == c){
                 pre -> next = temp -> next;
                 de = temp;
                 temp = temp -> next;
-            }else{
-                pre -> next = nullptr;
-                de = temp;
-                temp = nullptr;
+                delete de;
+                cnt++;
+                continue;
             }
-            delete de;
-            de = nullptr;
-            continue;
+            pre = temp;
+            temp = temp -> next;
         }
-        pre = temp;
-        temp = temp -> next;
+    }else{
+        cout << "The list is empty.";
     }
     pre = nullptr;
     temp = nullptr;
