@@ -1,67 +1,80 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-struct Node{
+struct Node
+{
     int data;
-    Node *next;   
+    Node *next;
 };
 
-Node *pre,*temp,*de,*nextNode;
+Node *pre, *temp, *de, *nextNode;
 
-Node *create(){
-    Node *tail,*head;
-    int n,cnt;
+Node *create()
+{
+    Node *tail, *head;
+    int n, cnt;
     cin >> n;
     head = tail = new Node;
-    tail -> next = nullptr;
-    while(n){
+    tail->next = nullptr;
+    while (n)
+    {
         temp = new Node;
-        temp -> data = n;
-        temp -> next = nullptr;
-        tail -> next = temp;
+        temp->data = n;
+        temp->next = nullptr;
+        tail->next = temp;
         tail = temp;
         cnt++;
         cin >> n;
     }
-    head -> data = cnt;
+    head->data = cnt;
     temp = nullptr;
     return head;
 }
 
-void outPut(Node *head){
-    if(head -> next){
-        temp = head -> next;
-    }else{
+void outPut(Node *head)
+{
+    if (head->next)
+    {
+        temp = head->next;
+    } else
+    {
         cout << "The list is empty." << endl;
         return;
     }
-    cout << "The list has " << head -> data 
-        << " numbers." << endl;
-    while (temp){
-        cout << temp -> data << " ";
-        temp = temp -> next;
+    cout << "The list has " << head->data << " numbers." << endl;
+    while (temp)
+    {
+        cout << temp->data << " ";
+        temp = temp->next;
     }
     cout << endl;
     temp = nullptr;
 }
 
-void deleteNum(Node *head,int c){
+void deleteNum(Node *head, int c)
+{
     int cnt = 0;
-    if(head -> next){
+    if (head->next)
+    {
         pre = head;
-        temp = head -> next;
-    }else{
+        temp = head->next;
+    } else
+    {
         cout << "The list is empty." << endl;
     }
-    while(temp){
-        if(temp -> data == c){
+    while (temp)
+    {
+        if (temp->data == c)
+        {
             cnt++;
-            if(temp -> next){
-                pre -> next = temp -> next;
+            if (temp->next)
+            {
+                pre->next = temp->next;
                 de = temp;
-                temp = temp -> next;
-            }else{
-                pre -> next = nullptr;
+                temp = temp->next;
+            } else
+            {
+                pre->next = nullptr;
                 de = temp;
                 temp = nullptr;
             }
@@ -70,131 +83,158 @@ void deleteNum(Node *head,int c){
             continue;
         }
         pre = temp;
-        temp = temp -> next;
+        temp = temp->next;
     }
     pre = nullptr;
     temp = nullptr;
-    head -> data -= cnt;
+    head->data -= cnt;
 }
 
-void headInsert(Node *head,int n){
+void headInsert(Node *head, int n)
+{
     temp = new Node;
-    if(!head -> next){
-        head -> next = temp;
-        temp -> data = n;
-        temp -> next = nullptr;
-        head -> data++;
+    if (!head->next)
+    {
+        head->next = temp;
+        temp->data = n;
+        temp->next = nullptr;
+        head->data++;
         return;
     }
-    temp -> next = head -> next;
-    head -> next = temp;
-    temp -> data = n;
-    head -> data++;
+    temp->next = head->next;
+    head->next = temp;
+    temp->data = n;
+    head->data++;
 }
 
-void tailInsert(Node *head,int n){
+void tailInsert(Node *head, int n)
+{
     Node *temp = head;
-    while(temp){
-        if(temp -> next == nullptr){
-            temp -> next = new Node;
-            temp = temp -> next;
-            temp -> data = n;
-            temp -> next = nullptr;
-            head -> data++;
+    while (temp)
+    {
+        if (temp->next == nullptr)
+        {
+            temp->next = new Node;
+            temp = temp->next;
+            temp->data = n;
+            temp->next = nullptr;
+            head->data++;
         }
-        temp = temp -> next;
+        temp = temp->next;
     }
 }
 
-void insertODUp(Node *head,int n){
-    if(!head -> next){
+void insertODUp(Node *head, int n)
+{
+    if (!head->next)
+    {
         temp = new Node;
-        head -> next = temp;
-        temp -> data = n;
-        temp -> next = nullptr;
-        head -> data++;
+        head->next = temp;
+        temp->data = n;
+        temp->next = nullptr;
+        head->data++;
         return;
     }
     pre = head;
-    temp = pre -> next;
-    while(temp){
-        if(temp -> data > n){
-            pre -> next = new Node;
-            pre = pre -> next;
-            pre -> data = n;
-            pre -> next = temp;
-            head -> data++;
+    temp = pre->next;
+    while (temp)
+    {
+        if (temp->data > n)
+        {
+            pre->next = new Node;
+            pre = pre->next;
+            pre->data = n;
+            pre->next = temp;
+            head->data++;
             return;
         }
-        if(!temp -> next) tailInsert(head,n);
+        if (!temp->next)
+            tailInsert(head, n);
         pre = temp;
-        temp = temp -> next;
+        temp = temp->next;
     }
 }
 
-void reverseList(Node *head){
-    Node *cur = head -> next;
-    head -> next = nullptr;
-    while(cur){
-        nextNode = cur -> next;
-        cur -> next = head -> next;
-        head -> next = cur;
+void reverseList(Node *head)
+{
+    Node *cur = head->next;
+    head->next = nullptr;
+    while (cur != nullptr)
+    {
+        nextNode = cur->next;
+        cur->next = head->next;
+        head->next = cur;
         cur = nextNode;
     }
 }
 
-void sort(Node *head){
-    for(int i = 0;i < head -> data;i++){
-        temp = head -> next;
-        for(int j = 0;j < head -> data - i - 1;j++){
-            if(temp -> data > temp -> next -> data){
-                swap(temp -> data,temp -> next -> data);
+void sort(Node *head)
+{
+    for (int i = 0; i < head->data; i++)
+    {
+        temp = head->next;
+        for (int j = 0; j < head->data - i - 1; j++)
+        {
+            if (temp->data > temp->next->data)
+            {
+                swap(temp->data, temp->next->data);
             }
-            temp = temp -> next;
+            temp = temp->next;
         }
     }
     temp = head;
-    while(temp -> next) temp = temp -> next;
+    while (temp->next)
+        temp = temp->next;
 }
 
-Node *merge(Node *l1,Node *l2){
+Node *merge(Node *l1, Node *l2)
+{
     Node *head = new Node;
     Node *p = head;
-    for(;l1 && l2;p = p -> next){
-        if(l1 -> data < l2 -> data){
-            p -> next = l1;
-            l1 = l1 -> next;
-        }else{
-            p -> next = l2;
-            l2 = l2 -> next;
+    for (; l1 && l2; p = p->next)
+    {
+        if (l1->data < l2->data)
+        {
+            p->next = l1;
+            l1 = l1->next;
+        } else
+        {
+            p->next = l2;
+            l2 = l2->next;
         }
     }
-    p -> next = l1 != nullptr ? l1 : l2;
-    Node *re = head -> next;
+    p->next = l1 != nullptr ? l1 : l2;
+    Node *re = head->next;
     delete head;
     return re;
 }
 
-Node *mSort(Node *head){
-    if(!head || !head -> next) return head;
-    Node *fast = head,*slow = head;
-    while(fast -> next && fast -> next -> next){
-        fast = fast -> next -> next;
-        slow = slow -> next;
+Node *mSort(Node *head)
+{
+    if (!head || !head->next)
+        return head;
+    Node *fast = head, *slow = head;
+    while (fast->next && fast->next->next)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
     }
     fast = slow;
-    slow = slow -> next;
-    fast -> next = nullptr;
-    Node *l1 = mSort(head),*l2 = mSort(slow);
-    return merge(l1,l2);
+    slow = slow->next;
+    fast->next = nullptr;
+    Node *l1 = mSort(head), *l2 = mSort(slow);
+    return merge(l1, l2);
 }
 
-void mergeSort(Node *head){
-    if(!head) return;
-    head -> next = mSort(head -> next);
+void mergeSort(Node &*head)
+{
+    if (!head)
+        return;
+    head->next = mSort(head->next);
 }
 
-int main(){
+int main()
+{
     Node *head = create();
     mergeSort(head);
     outPut(head);
